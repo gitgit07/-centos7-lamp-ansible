@@ -23,16 +23,21 @@
 
 
 sudo yum install ansible
+
 您还需要确保您有目标服务器的SSH访问权限，并且它们也安装了CentOS 7.6。
 
 安装和配置
+
 克隆仓库到您的控制节点：
 
 git clone https://github.com/gitgit07/-centos7-lamp-ansible.git
+
 cd centos7-lamp-ansible
 
 参考readme.txt
+
 根据您的环境编辑 inventory 文件，添加您的服务器地址。
+
 自定义 group_vars 或 host_vars 目录下的变量文件，以满足您的配置需求。
 
 运行Ansible Playbook
