@@ -41,6 +41,4 @@ cd centos7-lamp-ansible
 
 欢迎通过GitHub的Pull Requests或Issues来提交代码或报告问题。
 
-许可证
-本项目采用 MIT License 许可证。
 
