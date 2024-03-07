@@ -1,0 +1,9 @@
+---
+- name: 创建 /tmp/111 文件
+  hosts: servers
+  tasks:
+    - name: 确保 /tmp/111 文件存在并且权限为 0755
+      ansible.builtin.file:
+        path: /tmp/111
+        state: touch
+        mode: '0755'

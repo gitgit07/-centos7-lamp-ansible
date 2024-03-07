@@ -1,0 +1,7 @@
+---
+# roles/role_lamp/tasks/main.yml
+
+- include_tasks: apache.yml
+- include_tasks: mysql.yml
+- include_tasks: php.yml
+- include_tasks: discuz.yml

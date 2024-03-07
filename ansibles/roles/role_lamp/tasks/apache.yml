@@ -1,0 +1,19 @@
+#role_lamp/tasks/apache.yml
+---
+- name: 安装 Apache
+  yum:
+    name: httpd
+    state: present
+
+- name: 开启 and enable Apache
+  service:
+    name: httpd
+    state: started
+    enabled: yes
+
+# roles/role_lamp/tasks/apache.yml - 在之前的 Apache 任务后追加以下内容
+- name: Configure Apache virtual host for Discuz!
+  template:
+    src: apache_vhost.j2
+    dest: /etc/httpd/conf.d/{{ discuz_domain }}.conf
+  notify: restart apache

@@ -1,0 +1,6 @@
+---
+- name: roles自动化安装lamp
+  hosts: servers
+  remote_user: root
+  roles:
+    - role_lamp

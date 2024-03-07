@@ -1,0 +1,45 @@
+# roles/role_lamp/tasks/discuz.yml
+---
+- name: 下载 Discuz!
+  get_url:
+    url: "https://gitee.com/Discuz/DiscuzX/attach_files/1621557/download"  # Replace with actual Discuz! download URL
+    dest: "/tmp/discuz.zip"
+    mode: 0755
+
+- name: Unzip Discuz!
+  unarchive:
+    src: "/tmp/discuz.zip"
+    dest: "/var/www/html/"
+    remote_src: yes
+    creates: "/var/www/html/discuz"
+
+- name: Set up Discuz! database
+  mysql_db:
+    name: "{{ discuz_db_name }}"
+    state: present
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: Create Discuz! MySQL user
+  mysql_user:
+    name: "{{ discuz_db_user }}"
+    password: "{{ discuz_db_password }}"
+    priv: "{{ discuz_db_name }}.*:ALL"
+    state: present
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+
+- name: Set proper permissions for Discuz! directories
+  file:
+    path: "{{ item.path }}"
+    state: directory
+    owner: apache
+    group: apache
+    mode: "{{ item.mode }}"
+    recurse: yes
+  with_items:
+    - { path: '/var/www/html/upload', mode: '0755' }
+    - { path: '/var/www/html/upload/config', mode: '0755' }
+    - { path: '/var/www/html/upload/data', mode: '0755' }
+
+

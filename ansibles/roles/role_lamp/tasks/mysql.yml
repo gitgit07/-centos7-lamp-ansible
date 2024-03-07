@@ -1,0 +1,59 @@
+# roles/role_lamp/tasks/mysql.yml
+# 这个playbook需要依赖于YUM和PIP以及Ansible的MySQL模块
+---
+- name: 安装Python 2 pip
+  become: yes
+  yum:
+    name: python2-pip
+    state: present
+
+- name: 升级pip到最后一个支持Python 2的版本
+  become: yes
+  pip:
+    name: pip
+    version: "<21"
+    executable: /usr/bin/pip2
+
+- name: 在基于RedHat的系统上安装gcc (例如CentOS, Fedora)
+  yum:
+    name: gcc
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: 在基于RedHat的系统上安装Python开发包
+  yum:
+    name: python2-devel
+    state: present
+  when: ansible_os_family == "RedHat"
+
+- name: 安装MySQL相关组件
+  become: yes
+  yum:
+    name:
+      - mariadb-devel     # 用于MariaDB的开发库
+      - mariadb-server    # MariaDB服务器，也可以选择mysql-devel和mysql-server
+    state: present
+
+- name: 安装MySQL-python
+  become: yes
+  pip:
+    name: MySQL-python
+    state: present
+    executable: /usr/bin/pip2
+
+- name: 启动并设置开机启动MySQL
+  become: yes
+  service:
+    name: mariadb
+    state: started
+    enabled: yes
+
+- name: 设置MySQL root密码
+  become: yes
+  ignore_errors: yes
+  mysql_user:
+    login_user: "root"
+    login_password: "{{ mysql_root_password }}"
+    user: "root"
+    password: "{{ mysql_root_password }}"
+    host_all: yes

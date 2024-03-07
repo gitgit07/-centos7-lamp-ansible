@@ -1,0 +1,14 @@
+# roles/role_lamp/templates/apache_vhost.j2
+<VirtualHost *:80>
+    ServerName {{ discuz_domain }}
+    DocumentRoot /var/www/html/upload
+
+    <Directory /var/www/html/upload>
+        Options FollowSymLinks
+        AllowOverride All
+        Require all granted
+    </Directory>
+
+    ErrorLog /var/log/httpd/discuz_error.log
+    CustomLog /var/log/httpd/discuz_access.log combined
+</VirtualHost>

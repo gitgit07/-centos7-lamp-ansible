@@ -1,0 +1,28 @@
+---
+- name: 安装vsftpd服务配置
+  hosts: servers
+  remote_user: root
+  tasks:
+    - name: 安装vsftpd
+      yum:
+        name: vsftpd
+        state: present
+
+    - name: 同步vsftpd.conf配置文件
+      copy:
+        src: /etc/vsftpd/vsftpd.conf  # 确保这里是您控制节点上的正确路径
+        dest: /etc/vsftpd/vsftpd.conf
+      notify:
+        - restart vsftpd
+
+    - name: 启动vsftpd服务并开机自启
+      service:
+        name: vsftpd
+        state: started
+        enabled: yes
+
+  handlers:
+    - name: restart vsftpd
+      service:
+        name: vsftpd
+        state: restarted

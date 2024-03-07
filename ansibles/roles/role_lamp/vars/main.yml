@@ -1,0 +1,6 @@
+# roles/role_lamp/vars/main.yml
+---
+discuz_db_name: "discuzdb"
+discuz_db_user: "discuzuser"
+discuz_db_password: "discuzpass"
+mysql_root_password: "Qgl@20242024"
